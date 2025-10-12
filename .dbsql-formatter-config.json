@@ -1,0 +1,9 @@
+// 反映されなければView > Developer Settingsから直接指定
+{
+  "printWidth": 80,
+  "indentationStyle": "spaces",
+  "indentationWidth": 4,
+  "keywordCasing": "uppercase",
+  "shouldExpandExpressions": true,
+  "commaPosition": "beginning"
+}
