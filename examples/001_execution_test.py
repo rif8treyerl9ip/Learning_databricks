@@ -1,5 +1,4 @@
-from pyspark.sql import SparkSession
-from pyspark.sql.types import *
+df = spark.range(10)
+df.show()
 
-spark = SparkSession.builder.getOrCreate()
 print(spark)
