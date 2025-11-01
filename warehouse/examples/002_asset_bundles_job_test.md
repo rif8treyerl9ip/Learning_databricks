@@ -7,6 +7,7 @@
 ### Databricks CLIのインストール確認
 
 ```sh
+[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\Users\thyt\AppData\Local\Microsoft\WinGet\Packages\Databricks.DatabricksCLI_Microsoft.Winget.Source_8wekyb3d8bbwe", "Machine")
 databricks -v
 ```
 
@@ -33,7 +34,7 @@ databricks auth login --host https://adb-1234567890.azuredatabricks.net
 公式ドキュメント: <https://docs.databricks.com/aws/en/dev-tools/bundles/templates#create-a-bundle-using-a-template>
 
 ```sh
-databricks bundle init default-python --profile default
+databricks bundle init default-python # --profile default
 ```
 
 対話式で以下を入力:

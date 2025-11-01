@@ -1,11 +1,19 @@
+.databricks/
+build/
+dist/
+__pycache__/
+*.egg-info
+.venv/
+.venv*
+venv*
+scratch/**
+!scratch/README.md
+
 .databricks
 .devcontainer/
 
-.venv*
-venv*
 .vscode
 
 databricks.yml
 databricks_project.egg-info
-my_project
-examples/100_databricks_tool_matrix.md
+warehouse/100_databricks_tool_matrix.md

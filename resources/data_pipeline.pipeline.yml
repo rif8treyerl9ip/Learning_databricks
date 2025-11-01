@@ -1,0 +1,14 @@
+# The main pipeline for data_pipeline
+resources:
+  pipelines:
+    data_pipeline_pipeline:
+      name: data_pipeline_pipeline
+      catalog: workspace
+      schema: data_pipeline_${bundle.target}
+      serverless: true
+      libraries:
+        - notebook:
+            path: ../src/pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src

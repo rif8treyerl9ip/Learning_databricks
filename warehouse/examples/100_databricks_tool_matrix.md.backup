@@ -1,0 +1,56 @@
+# Python/SQL コード品質ツール一覧
+
+## Linter & Formatter 対応表
+
+| No. | 拡張子 | 種別 | CLI | GUI |
+| ----- |------|-----|---------------|------|
+| 0 | .py | Linter | databricks-labs-pylint | None |
+| 1 | .py | Formatter | Black[jupyter] | BlaBlack[jupyter] |
+| 2 | .ipynb %python | Linter | databricks-labs-pylint | Ctrl+Shift+F(at databricks GUI) |
+| 3 | .ipynb %python | Formatter | Black[jupyter] | Ctrl+Shift+F(at databricks GUI) |
+| 4 | .ipynb %sql | Linter | 自前でパースするのがよさそう | Ctrl+Shift+F(at databricks GUI) |
+| 5 | .ipynb %sql | Formatter | 自前でパースするのがよさそう | Ctrl+Shift+F(at databricks GUI) |
+| 6 | .sql | Linter | sqlfluff? | Ctrl+Shift+F(at databricks GUI) |
+| 6 | .sql | Formatter? | sqlfluff? | Ctrl+Shift+F(at databricks GUI) |
+
+
+## リンター・フォーマッター
+
+- (GUI)
+  - Lint: pylint([serverless 3から](https://docs.databricks.com/gcp/en/release-notes/serverless/environment-version/three#improved-python-syntax-error-highlighting))
+    - databricks-labs-pylint ではないかもしれないので、pylintと表記
+  - Format: black + tokenizer-rt
+- (CLI):
+  - Lint: databricks-labs-pylint
+    - databricks コンテキストがないと特有のエラーがチェックできないので一回
+  - Format: Black[jupyter]
+- CI/CD
+  - Lint: databricks-labs-pylint
+    - databricks コンテキストがないと特有のエラーがチェックできない
+  - Format: Black[jupyter]
+
+## GUI開発
+
+```
+ローカル or Databricks GUI で開発
+  ↓
+Git push
+  ↓
+CI/CDで
+- Databricks Repos を更新
+- GitLab RunnerからCLI経由で
+  - Pylint
+  - Black[jupyter]
+  ↓
+完了！（Reposがそのまま実行環境）
+```
+
+
+
+## 備考
+
+- 5, 6番目（`.ipynb`の`%sql`セル）は**Ruffが適用されない**
+- Databricks GUIの`Ctrl+Shift+F`は、Python/SQLを自動判別してフォーマット
+- SQLセルのフォーマットはDatabricks独自の実装（Gethue/sql-formatter使用）
+  - 4年前で古い.なぜこれを使っているのか
+- [sqlfluff](https://github.com/sqlfluff/sqlfluff?tab=readme-ov-file#dialects-supported)がspark SQLサポートしている
