@@ -1,51 +1,36 @@
 [project]
-name = "databricks-project"
-version = "0.1.0"
-requires-python = ">=3.10"
+name = "data_pipeline"
+version = "0.0.1"
+requires-python = ">=3.10,<=3.13"
 
-
-# 本番環境の依存関係（Databricks Runtimeにデプロイされるもの）
-dependencies = [
-    "pandas>=2.0.0",
-    "numpy>=1.24.0",
-]
-
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "databricks-connect==16.1.*",
-    "databricks-sdk>=0.20.0",
-    "jupyter>=1.0.0",
-    "ipykernel>=6.29.0",
-    # https://github.com/databrickslabs/pylint-plugin?tab=readme-ov-file#installation-as-pylint-plugin
-    "databricks-labs-pylint"
+    # Code completion support for Lakeflow Declarative Pipelines, also install databricks-connect
+    "databricks-dlt",
+    # databricks-connect can be used to run parts of this project locally.
+    # Note that for local development, you should use a version that is not newer
+    # than the remote cluster or serverless compute you connect to.
+    # See also https://docs.databricks.com/dev-tools/databricks-connect.html.
+    "databricks-connect>=15.4,<15.5",
+    "databricks-labs-pylint",
+
+    "jupyter",
+    "ipykernel",
+    "pytest",
 ]
 
-ci = [
-    "ruff>=0.3.0",
-    "pytest",  # Option
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = [
+    "tests",
 ]
-
-[tool.pylint.MASTER]
-load-plugins = ["databricks.labs.pylint.all"]
-
-[tool.ruff]
-line-length = 127
-target-version = "py311"
-
-[tool.ruff.lint]
-select = [
-  "F", # Pyflakes
-  "E", # Pycodestyle Error
-  "W", # Pycodestyle Warning
-  "I",  # isort
-  "N"   # pep8-naming
-]
-ignore = ["F821"]  # NOTE: there are built-in variables
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
 
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/data_pipeline"]
+
+# [project.scripts]
+# main = "data_pipeline.main:main"
